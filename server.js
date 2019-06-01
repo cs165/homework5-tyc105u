@@ -55,10 +55,19 @@ app.patch('/api/:column/:value', jsonParser, onPatch);
 async function onDelete(req, res) {
   const column  = req.params.column;
   const value  = req.params.value;
+  const result = await sheet.getRows();
+  const rows = result.rows;
 
   // TODO(you): Implement onDelete.
-
-  res.json( { status: 'unimplemented'} );
+  for(let i = 0; i < rows[0].length; i++){
+    if(column === rows[0][i]){
+      for(let j = 1; j < rows.length; j++){
+        if(value === rows[j][i])
+          var ans = await sheet.deleteRow(j);
+      }
+    }
+  }
+  res.json({response: 'success'});
 }
 app.delete('/api/:column/:value',  onDelete);
 
