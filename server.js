@@ -34,10 +34,14 @@ app.get('/api', onGet);
 
 async function onPost(req, res) {
   const messageBody = req.body;
+  const result = await sheet.getRows();
+  const rows = result.rows;
 
   // TODO(you): Implement onPost.
+  const{name, email, gender} = messageBody;
+  var ans = await sheet.appendRow([name, email, gender]);
 
-  res.json( { status: 'unimplemented'} );
+  res.json({response: 'success'});
 }
 app.post('/api', jsonParser, onPost);
 
